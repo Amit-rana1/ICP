@@ -1,0 +1,46 @@
+class Solution {
+    public int numIslands(char[][] grid) {
+        
+        return bfs_all(grid);
+    }
+  
+    int bfs_all(char[][] grid){
+        int m = grid.length;
+        int n = grid[0].length;
+        boolean visited[][] = new boolean[m][n];
+        int cnt=0;
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(!visited[i][j] && grid[i][j]!='0'){
+                    bfs(grid,i,j,m,n,visited);
+                    cnt++;
+                }
+            }
+        }
+        return cnt;
+        
+    }
+    void bfs(char[][] grid,int sr,int sc,int m,int n,boolean[][] visited){
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{sr,sc});
+        visited[sr][sc] = true;
+        while(!q.isEmpty()){
+            int arr[] = q.poll();
+            int[] dr = {0,-1,0,1};
+            int[] dc = {1,0,-1,0,1};
+            for(int i=0;i<dr.length;i++){
+                int n_r=arr[0]+dr[i];
+                int n_c=arr[1]+dc[i];
+                if(isValid(visited,grid,n_r,n_c,m,n)){
+                    q.add(new int[]{n_r,n_c});
+                    visited[n_r][n_c]=true;
+                }
+            }
+        }
+    }
+    boolean isValid(boolean[][] visited,char[][] grid,int n_r,int n_c,int rows,int cols){
+        if(n_r>=0 && n_c>=0 && n_r<rows&& n_c<cols && !visited[n_r][n_c] && grid[n_r][n_c]!='0') return true;
+        return false;
+    }
+
+}
