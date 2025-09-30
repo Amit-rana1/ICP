@@ -1,0 +1,30 @@
+class Solution {
+     public boolean check(int arr[],int arr2[]){
+        for(int i=0; i<arr.length; i++){
+            if(arr[i]!=arr2[i]) return false;
+        }
+        return true;
+    }
+    public List<Integer> findAnagrams(String s, String p) {
+        int k=p.length();
+        List<Integer> list=new ArrayList<>();
+        int[] map=new int[26];
+        for(int i=0;i<k;i++){
+            map[p.charAt(i)-'a']++;
+        }
+        int[] temp=new int[26];
+        int l=0;
+        int r=0;
+        while(r<s.length()){
+            temp[s.charAt(r)-'a']++;
+            if(r>=k-1){
+                if(check(map,temp)) list.add(l);
+                temp[s.charAt(l)-'a']--;
+                l++;
+            }
+            r++;
+        }
+        return list;
+
+    }
+}
