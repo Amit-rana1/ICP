@@ -1,0 +1,41 @@
+class Solution {
+    public boolean exist(char[][] board, String word) {
+        int n=board.length;
+        int m=board[0].length;
+        boolean visited[][]= new boolean[n][m];
+        for(int i=0; i<n;i++){
+            for(int j=0;j<m;j++){
+                if(board[i][j]==word.charAt(0)){ 
+                boolean ans= find(board,visited,i,j,n-1,m-1,word,0);
+                if(ans) return true;
+               }
+            }
+        }
+        return false;
+    }
+    public static boolean find(char[][] board,boolean[][] visited,int cr,int cc,int er,int ec, String word,int idx){
+        if(cr<0 || cc >ec || cr>er || cc<0 || visited[cr][cc]) return false;
+        char ch=word.charAt(idx);
+        if(board[cr][cc]!=ch) return false;
+        if(idx+1==word.length()) return true;
+       
+        if(ch==board[cr][cc]){
+            visited[cr][cc]=true;
+            
+            boolean up=find(board,visited,cr-1,cc,er,ec,word,idx+1);
+            if(up==true) return true;
+            boolean down=find(board,visited,cr+1,cc,er,ec,word,idx+1);
+            if(down==true) return true;
+            boolean left=find(board,visited,cr,cc-1,er,ec,word,idx+1);
+            if(left==true) return true;
+            boolean right=find(board,visited,cr,cc+1,er,ec,word,idx+1);
+            if(right==true) return true;
+
+            visited[cr][cc]=false;
+            return false;
+        }
+        else{
+            return false;
+        }
+    }
+}
